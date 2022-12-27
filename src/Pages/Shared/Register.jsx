@@ -44,24 +44,24 @@ const Register = () => {
           .then((res) => res.json())
           .then((imgData) => {
             // console.log(imgData);
-            if(imgData.success) {
+            if (imgData.success) {
               const displayName = name;
-            const photoURL = imgData?.data?.url;
-            console.log(photoURL)
-            const userInfo = {displayName, photoURL};
-            updateUser(userInfo)
-              .then(() => {
-                console.log("updated user");
-                // setUserPhotoURL(photoURL)
-              })
-              .catch(error => {
-                console.log(error)
-              })
+              const photoURL = imgData?.data?.url;
+              console.log(photoURL);
+              const userInfo = { displayName, photoURL };
+              updateUser(userInfo)
+                .then(() => {
+                  console.log("updated user");
+                  // setUserPhotoURL(photoURL)
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
-          })
+          });
       })
       .catch((error) => {
         console.log(error);

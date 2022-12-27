@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import ScrollToTop from "../Components/Freedom/ScrollToTop";
 import Footer from "../Components/Shared/Footer";
 import Navbar from "../Components/Shared/Navbar";
-import Home from "../Pages/Home/Home";
+// import Home from "../Pages/Home/Home";
 
 const Root = () => {
   return (
