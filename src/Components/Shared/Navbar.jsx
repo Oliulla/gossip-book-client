@@ -1,24 +1,47 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Contexts/AuthProvider";
+import Avatar from "./Avatar";
 
 const Navbar = () => {
-    const [isActive, setIsActive] = useState(false);
+  // const [isActive, setIsActive] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
 
+  const handleLogOut = () => {
+    logOut()
+    .then(result => {
+      console.log(result);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   return (
-    <div className="navbar bg-accent">
+    <div className="navbar bg-accent fixed top-0 z-50">
       <div className="flex-1">
-        <Link to="/" className="btn btn-secondary w-12 h-12 rounded-[50%] text-4xl">G</Link>
+        <Link
+          to="/"
+          className="btn btn-secondary w-12 h-12 rounded-[50%] text-4xl"
+        >
+          G
+        </Link>
         <div className="my-0 mx-auto flex gap-4 text-base-100 font-semibold">
-            <Link className="md:text-xl" to="/media" >Media</Link>
-            <Link className="md:text-xl" to="/message" >Message</Link>
-            <Link className="md:text-xl" to="/about" >About</Link>
-            {/* <Link to="/media" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>Media</Link> */}
-            {/* <Link to="/message" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>Message</Link> */}
-            {/* <Link to="/about" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>About</Link> */}
+          <Link className="md:text-xl" to="/media">
+            Media
+          </Link>
+          <Link className="md:text-xl" to="/message">
+            Message
+          </Link>
+          <Link className="md:text-xl" to="/about">
+            About
+          </Link>
+          {/* <Link to="/media" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>Media</Link> */}
+          {/* <Link to="/message" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>Message</Link> */}
+          {/* <Link to="/about" onClick={() => setIsActive(!isActive)} className={`text-xl ${isActive && "text-secondary"} hover:text-primary mx-2`}>About</Link> */}
         </div>
       </div>
-      
+
       <div className="flex-none">
         {/* <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
@@ -53,28 +76,42 @@ const Navbar = () => {
             </div>
             </div>
         </div> */}
-        
+
         <div className="dropdown dropdown-end bg-accent">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img src="https://i.ibb.co/4JKWmDG/anonymous.jpg" alt="user img" />
-            </div>
+            {/* <div className="w-10 rounded-full">
+              <img
+                src={`${user?.photoURL ? user?.photoURL : "https://i.ibb.co/4JKWmDG/anonymous.jpg"}`}
+                alt="user img"
+              />
+            </div> */}
+            <Avatar />
           </label>
           <ul
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-accent rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
+              <Link to="/" className="justify-between">
                 Profile
-              </a>
+              </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to="/">Settings</Link>
             </li>
-            <li>
-              <a>Logout</a>
-            </li>
+            {user?.uid ? (
+              <>
+                <li>
+                  <button onClick={handleLogOut}>Logout</button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to='/openroot/login'>Login</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

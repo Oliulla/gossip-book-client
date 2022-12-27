@@ -7,13 +7,13 @@ module.exports = {
     themes: [
       {
         gossipbooktheme:{
-          primary: '#242526',
+          primary: '#111827',
           secondary: '#3982E4',
           accent: "#242526",
           neutral: "#18191A",
           "base-100": "#E2E4E9",
 
-          // "--btn-text-case": "lowercase"
+          "--btn-text-case": "lowercase"
         }
       },
     ]
