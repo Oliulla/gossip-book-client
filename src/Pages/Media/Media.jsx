@@ -10,30 +10,42 @@ const Media = () => {
   const [isPostLoading, setIsPostLoading] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [isUserCommented, setIsUserCommented] = useState(false);
+  
 
   useEffect(() => {
-    setIsPostLoading(true)
-    axios.get('http://localhost:5000/usersposts')
-    .then(data => {
-      // console.log(data?.data);
-      setAllPosts(data?.data);
-      setIsPostLoading(false);
-    })
-    .catch(err => {
-      console.log(err);
-      setIsPostLoading(false);
-    })
-  }, [isLiked])
+    setIsPostLoading(true);
+    axios
+      .get("http://localhost:5000/usersposts")
+      .then((data) => {
+        // console.log(data?.data);
+        setAllPosts(data?.data);
+        setIsPostLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsPostLoading(false);
+      });
+  }, [isLiked, isUserCommented]);
 
   return (
-    <div className="min-h-screen">
-      {
-        isPostLoading ? <LoadingAnimation />
-        :
-        allPosts?.map(post => {
-          return <UsersPost key={post._id} post={post} setIsLiked={setIsLiked} isLiked={isLiked} />
+    <div className="min-h-screen pt-2">
+      {isPostLoading ? (
+        <LoadingAnimation />
+      ) : (
+        allPosts?.map((post) => {
+          return (
+            <UsersPost
+              key={post._id}
+              post={post}
+              setIsLiked={setIsLiked}
+              isLiked={isLiked}
+              isUserCommented={isUserCommented} 
+              setIsUserCommented={setIsUserCommented}
+            />
+          );
         })
-      }
+      )}
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Root from "../Layouts/Root";
 import About from "../Pages/About/About";
 import Home from "../Pages/Home/Home";
 import Media from "../Pages/Media/Media";
+import PostDetails from "../Pages/Media/PostDetails";
 import Message from "../Pages/Message/Message";
 import ErrorPage from "../Pages/Shared/ErrorPage";
 import Login from "../Pages/Shared/Login";
@@ -35,6 +36,11 @@ const router = createBrowserRouter([
             {
                 path: '/about',
                 element: <About />
+            },
+            {
+                path: '/userposts/:id',
+                loader: ({params}) => fetch(`http://localhost:5000/usersposts/${params.id}`),
+                element: <PostDetails />
             },
         ]
 

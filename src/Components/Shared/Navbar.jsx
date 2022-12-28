@@ -1,18 +1,19 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import Avatar from "./Avatar";
 import AvatarWithName from "./AvatarWithName";
 import { FiSettings } from "react-icons/fi";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import { TfiLayoutMediaOverlayAlt } from "react-icons/tfi";
+import { TfiHome, TfiLayoutMediaOverlayAlt } from "react-icons/tfi";
 import { AiFillMessage } from "react-icons/ai";
 import { ImProfile } from "react-icons/im";
 import { toast } from "react-hot-toast";
 
 const Navbar = () => {
-  const [isActive, setIsActive] = useState(false);
   const { user, logOut } = useContext(AuthContext);
+  const location = useLocation();
+  // console.log(location)
 
   const handleLogOut = () => {
     logOut()
@@ -27,8 +28,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-accent fixed top-0 z-50 border border-b-2 border-primary">
-      <div className="flex-1">
+    <div className="navbar bg-accent fixed top-0 z-50 border border-b-2 border-primary mb-14 py-0">
+      <div className="flex-1 py-0">
         <Link
           to="/"
           className="btn btn-secondary w-12 h-12 rounded-[50%] text-4xl"
@@ -37,43 +38,51 @@ const Navbar = () => {
         </Link>
         <div className="my-0 mx-auto flex gap-6 text-base-100">
           <Link
-            // onClick={() => setIsActive(!isActive)}
-            className={`flex items-center gap-1 py-3 px-4 rounded-md hover:btn-primary ${isActive && 'text-secondary'} `}
+            className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
+              location.pathname === "/home" && "active"
+            } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
+            data-tip="Home"
+            to="/home"
+          >
+            <TfiHome className="text-2xl md:text-3xl" />
+            {/* <span className="hidden md:block">Home</span> */}
+          </Link>
+          <Link
+            className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
+              location.pathname === "/media" && "active"
+            } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
+            data-tip="Media"
             to="/media"
           >
-            <TfiLayoutMediaOverlayAlt className="text-2xl" />
-            Media
+            <TfiLayoutMediaOverlayAlt className="text-2xl md:text-3xl" />
+            {/* <span className="hidden md:block">Media</span> */}
           </Link>
           <Link
-          // onClick={() => setIsActive(!isActive)}
-            className={`flex items-center gap-1 py-3 px-4 rounded-md hover:btn-primary ${isActive && 'text-secondary'} `}
+            className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
+              location.pathname === "/message" && "active"
+            } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
+            data-tip="Message"
             to="/message"
           >
-            <AiFillMessage className="text-2xl" />
-            Message
+            <AiFillMessage className="text-2xl md:text-3xl" />
+            {/* <span className="hidden md:block">Message</span> */}
           </Link>
           <Link
-            // onClick={() => setIsActive(!isActive)}
-            className={`flex items-center gap-1 py-3 px-4 rounded-md hover:btn-primary ${isActive && 'text-secondary'} `}
+            className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
+              location.pathname === "/about" && "active"
+            } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
+            data-tip="About"
             to="/about"
           >
-            <ImProfile className="text-2xl" />
-            About
+            <ImProfile className="text-2xl md:text-3xl" />
+            {/* <span className="hidden md:block">About</span> */}
           </Link>
         </div>
       </div>
 
       <div className="flex-none">
         <div className="dropdown dropdown-end bg-accent">
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            {/* <div className="w-10 rounded-full">
-              <img
-                src={`${user?.photoURL ? user?.photoURL : "https://i.ibb.co/4JKWmDG/anonymous.jpg"}`}
-                alt="user img"
-              />
-            </div> */}
-            <Avatar />
-          </label>
+          <Avatar />
           <ul
             tabIndex={0}
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-accent rounded-box w-72"

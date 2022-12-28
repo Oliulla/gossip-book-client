@@ -2,13 +2,15 @@ import React from "react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "../../Components/Shared/GoogleLogin";
 import { AuthContext } from "../../Contexts/AuthProvider";
 
 const Login = () => {
-  const {userLogin} = useContext(AuthContext);
+  const {userLogin, setLoading} = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -18,11 +20,14 @@ const Login = () => {
 
   const handleLogin = (data) => {
     // console.log(data);
+    setLoading(true)
     userLogin(data?.email, data?.password)
     .then(result => {
-      console.log(result)
-      toast.success('Successfully logged in!')
-      navigate("/")
+      console.log(result);
+      toast.success('Successfully logged in!');
+      setLoading(false);
+      
+      return navigate(from, {replace: true})
     })
     .catch(error => {
       console.log(error);

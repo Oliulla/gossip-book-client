@@ -7,8 +7,26 @@ import { FaCommentAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Avatar from "../Shared/Avatar";
+import { useForm } from "react-hook-form";
+import UsersComments from "../Shared/UsersComments";
 
-const UsersPost = ({ post, isLiked, setIsLiked }) => {
+const UsersPost = ({
+  post,
+  isLiked,
+  setIsLiked,
+  isUserCommented, 
+  setIsUserCommented
+}) => {
+  const [uploadeExp, setUploadExp] = useState("");
+  const [isSeeMore, setIsSeeMore] = useState(false);
+  const [isComment, setIsComment] = useState(false);
+  const { user } = useContext(AuthContext);
+  const likedUserName = user?.displayName;
+
+  
+  // postinfo
   const {
     postImgUrl,
     postInfo,
@@ -17,12 +35,17 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
     userPhoto,
     _id,
     likedUsers,
+    commentUsers,
   } = post;
-  const [uploadeExp, setUploadExp] = useState("");
-  const [isSeeMore, setIsSeeMore] = useState(false);
-  const { user } = useContext(AuthContext);
-  const likedUserName = user?.displayName;
 
+  // react hook form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  // commpare date for showing upload duration
   const now = new Date().getTime();
   const uploadAge = parseInt(now - uploadTime);
 
@@ -75,12 +98,12 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
           console.log(error);
         });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
   // user dislikedpost
-  const handleDisLiked = async(postId, likedUserName) => {
+  const handleDisLiked = async (postId, likedUserName) => {
     try {
       axios
         .put("http://localhost:5000/usersposts/disliked", {
@@ -95,15 +118,55 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
           console.log(error);
         });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+
+  // user post save to db
+  const handleComment = async (data) => {
+    const commentPostId = _id;
+    const userComments = data?.userComment;
+    const userEmail = user?.email;
+    const userPhotoURL = user?.photoURL;
+    const userName = user?.displayName;
+
+    const commentsInfo = {
+      commentPostId,
+      userComments,
+      userEmail,
+      userPhotoURL,
+      userName,
+    };
+
+    // console.log(
+    //   commentPostId,
+    //   userComments,
+    //   userEmail,
+    //   userPhotoURL,
+    //   userName
+    // );
+    // console.log(commentsInfo);
+
+    try {
+      axios
+        .put("http://localhost:5000/usersposts/comments", commentsInfo)
+        .then((data) => {
+          // console.log(data)
+          setIsUserCommented(!isUserCommented);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="card w-full bg-accent shadow-xl rounded-lg mb-4">
       <div className="card-body">
         {/* <AvatarWithName /> */}
-        <div className="flex gap-2">
+        <div className="flex gap-x-1">
           <label className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
               <img
@@ -147,6 +210,14 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
               {postInfo?.length >= 270 && "see Less..."}
             </span>
           )}
+          <Link
+            to={`/userposts/${_id}`}
+            className="text-base-100 flex justify-end"
+          >
+            <span className="bg-primary px-2 py-1 rounded-sm text-[.8rem]">
+              See Details
+            </span>
+          </Link>
         </p>
       </div>
       <>
@@ -166,12 +237,17 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
           </span>
         </p>
         <p>
-          <span className="">0</span>
-          <span className="pl-1 hover:underline cursor-pointer">Comments</span>
+          <span>{commentUsers?.length ? commentUsers.length : 0}</span>
+          <span
+            onClick={() => setIsComment(!isComment)}
+            className="pl-1 hover:underline cursor-pointer"
+          >
+            Comments
+          </span>
         </p>
       </div>
       <hr className="mx-4" />
-      <div className="px-4 py-3 pb-4 flex justify-around">
+      <div className="px-4 py-1 flex justify-around">
         {!likedUsers?.includes(user?.displayName) ? (
           <button
             onClick={() => handleLiked(_id, likedUserName)}
@@ -189,10 +265,34 @@ const UsersPost = ({ post, isLiked, setIsLiked }) => {
             <span className="pl-1">Dislike</span>
           </button>
         )}
-        <button className="hover_btn px-4 py-2 flex items-center justify-center">
+        <button
+          onClick={() => setIsComment(!isComment)}
+          className="hover_btn px-4 py-2 flex items-center justify-center"
+        >
           <FaCommentAlt />
           <span className="pl-1">Comments</span>
         </button>
+      </div>
+      <div className={`${!isComment && "hidden"}`}>
+        <>
+          <hr className="mx-4 hr_custom" />
+          <div>
+            <div className={`mt-2 px-4 flex gap-1`}>
+              <Avatar />
+              <form onSubmit={handleSubmit(handleComment)} className="w-full">
+                <input
+                  {...register("userComment", {
+                    required: true,
+                  })}
+                  className="resize-none w-full h-5/6 rounded-3xl outline-none bg-neutral px-2 overflow-hidden"
+                />
+              </form>
+            </div>
+          </div>
+        </>
+        {commentUsers?.length && (
+          <UsersComments commentPostId={_id} />
+        )}
       </div>
     </div>
   );

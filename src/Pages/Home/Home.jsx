@@ -8,13 +8,14 @@ import { useState } from "react";
 
 const Home = () => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isUserCommented, setIsUserCommented] = useState(false);
 
   const {
     data: trendingPosts = [],
     error,
     isLoading,
   } = useQuery({
-    queryKey: ["usersposts/trendings"],
+    queryKey: ["usersposts/trendings", isLiked],
     queryFn: async () => {
       try {
         const data = await axios.get(
@@ -34,22 +35,28 @@ const Home = () => {
   }
 
   return (
-    <div className="h-auto">
+    <div className="min-h-screen w-full">
       <PostBox />
-      {
-      isLoading ? 
-      <LoadingAnimation />
-      : 
-      (
-        <div className="my-20">
-          <h2 className="text-xl font-semibold text-base-100 mb-2">Trendings <span className="text-secondary">Now</span></h2>
+      {isLoading ? (
+        <LoadingAnimation />
+      ) : (
+        <div className="my-16 w-full">
+          <h2 className="text-xl font-semibold text-base-100 mb-2">
+            Trendings <span className="text-secondary">Now</span>
+          </h2>
 
-          {
-            trendingPosts.map(post => <UsersPost post={post} isLiked={isLiked} setIsLiked={setIsLiked} /> )
-          }
+          {trendingPosts.map((post) => (
+            <UsersPost
+              key={post._id}
+              post={post}
+              isLiked={isLiked}
+              setIsLiked={setIsLiked}
+              isUserCommented={isUserCommented}
+              setIsUserCommented={setIsUserCommented}
+            />
+          ))}
         </div>
-      )
-      }
+      )}
     </div>
   );
 };

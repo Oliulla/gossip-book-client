@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="footer p-10 bg-neutral text-neutral-content w-2/4 mx-auto">
-      <div>
+    <footer className="footer p-2 md:p-10 bg-neutral text-neutral-content w-full md:w-2/4 mx-auto">
+      {/* <div>
         <span className="footer-title">Services</span>
         <a className="link link-hover">Branding</a>
         <a className="link link-hover">Design</a>
@@ -22,6 +23,31 @@ const Footer = () => {
         <a className="link link-hover">Terms of use</a>
         <a className="link link-hover">Privacy policy</a>
         <a className="link link-hover">Cookie policy</a>
+      </div> */}
+      <div className="flex flex-wrap">
+        <Link className="mr-2" to="/">
+          Privacy
+        </Link>
+        ·
+        <Link className="mr-2" to="/">
+          Terms
+        </Link>
+        ·
+        <Link className="mr-2" to="/">
+          Advertising
+        </Link>
+        ·
+        <Link className="mr-2" to="/">
+          Ad Choices
+        </Link>
+        ·
+        <Link className="mr-2" to="/">
+          Cookies
+        </Link>
+        ·<span></span>·
+        <Link className="mr-2" to="/">
+          Gossip ©{new Date().getFullYear()}
+        </Link>
       </div>
     </footer>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TrendigPosts = () => {
+const ProfileAbout = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const TrendigPosts = () => {
     );
 };
 
-export default TrendigPosts;
+export default ProfileAbout;

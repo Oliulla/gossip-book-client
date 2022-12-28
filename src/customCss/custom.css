@@ -52,3 +52,12 @@
 .custom_shadow {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+.active {
+  color : #27b1e7;
+  border-bottom: 3px solid #0055b6;
+}
+
+hr {
+  border: 1px solid #000;
+}
