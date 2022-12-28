@@ -1,25 +1,50 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 // import AvatarWithName from "../Shared/AvatarWithName";
 import { AiFillLike } from "react-icons/ai";
 import { TiWorld } from "react-icons/ti";
+import { FaCommentAlt } from "react-icons/fa";
 
 const UsersPost = ({ post }) => {
-  // console.log(post)
   const { postImgUrl, postInfo, uploadTime, userName, userPhoto } = post;
-  //   console.log(postImgUrl);
-  const [uploadeExp, setUploadExp] = useState('');
+  const [uploadeExp, setUploadExp] = useState("");
+  const [isSeeMore, setIsSeeMore] = useState(false);
+
   const now = new Date().getTime();
-  // console.log(now)
-  const uploadDuration = now - uploadTime;
-  // console.log(uploadDuration);
-  const uploadAge = parseInt(uploadDuration / 1000);
-  //   console.log(uploadAge);
-//   if (uploadAge < 60) {
-//     // eslint-disable-next-line no-self-assign
-//     setUploadExp(`${uploadAge}s`)
-//   } else if(uploadAge < 3599) {
-//     setUploadExp(`${uploadAge}s`)
-//   }
+  const uploadAge = parseInt(now - uploadTime);
+
+  useEffect(() => {
+    const timeCount = (uploadAge) => {
+      const days = Math.floor(uploadAge / (24 * 60 * 60 * 1000));
+      const daysms = uploadAge % (24 * 60 * 60 * 1000);
+      const hours = Math.floor(daysms / (60 * 60 * 1000));
+      const hoursms = uploadAge % (60 * 60 * 1000);
+      const minutes = Math.floor(hoursms / (60 * 1000));
+      const minutesms = uploadAge % (60 * 1000);
+      const sec = Math.floor(minutesms / 1000);
+      return days + ":" + hours + ":" + minutes + ":" + sec;
+    };
+
+    const uploadDuration = timeCount(uploadAge).split(":");
+
+    // for(const duration in uploadDuration) {
+    //   console.log(uploadDuration)
+    // }
+
+    if (uploadDuration[0] > 0) {
+      setUploadExp(`${uploadDuration[0]}d`);
+      return;
+    } else if (uploadDuration[1] > 0) {
+      setUploadExp(`${uploadDuration[1]}h`);
+      return;
+    } else if (uploadDuration[2] > 0) {
+      setUploadExp(`${uploadDuration[2]}m`);
+      return;
+    } else if (uploadDuration[3] > 0) {
+      setUploadExp(`${uploadDuration[2]}s`);
+      return;
+    }
+  }, [uploadAge]);
 
   return (
     <div className="card w-full bg-accent shadow-xl rounded-lg mb-4">
@@ -43,27 +68,41 @@ const UsersPost = ({ post }) => {
               {userName ? userName : "Anonymous"}
             </h3>
             <p className="flex items-center mt-0 gap-1 text-[#bbbbe4]">
-              {
-                uploadeExp
-              }
+              {uploadeExp}
               <TiWorld />
             </p>
           </div>
         </div>
         <p className={`${!postInfo && "hidden"}`}>
-          {postInfo ? postInfo?.slice(0, 270) : ""}
-          <span className="underline cursor-pointer pl-2">
-            {postInfo?.length >= 270 && "See more..."}
+          <span className={`${isSeeMore && "hidden"}`}>
+            {postInfo ? postInfo?.slice(0, 270) : ""}
           </span>
+          <span className={`${!isSeeMore && "hidden"}`}>{postInfo}</span>
+          {!isSeeMore && (
+            <span
+              onClick={() => setIsSeeMore(!isSeeMore)}
+              className="underline cursor-pointer pl-2 text-secondary block"
+            >
+              {postInfo?.length >= 270 && "See more..."}
+            </span>
+          )}
+          {isSeeMore && (
+            <span
+              onClick={() => setIsSeeMore(!isSeeMore)}
+              className="underline cursor-pointer pl-2 text-secondary block"
+            >
+              {postInfo?.length >= 270 && "see Less..."}
+            </span>
+          )}
         </p>
       </div>
-      <figurer>
+      <>
         <img
           src={postImgUrl ? postImgUrl : ""}
           className={`${!postImgUrl && "hidden"}`}
           alt="post"
         />
-      </figurer>
+      </>
       <div className="px-4 pt-2 pb-4 flex justify-between">
         <p className="flex items-center justify-center">
           <span className="bg-[#077FE6] text-center w-4 h-4 rounded-full">
@@ -80,12 +119,12 @@ const UsersPost = ({ post }) => {
       </div>
       <hr className="mx-4" />
       <div className="px-4 py-3 pb-4 flex justify-around">
-        <button className="hover_btn px-4 py-2">
-          <span>@</span>
+        <button className="hover_btn px-4 py-2 flex items-center justify-center">
+        <AiFillLike />
           <span className="pl-1">Like</span>
         </button>
-        <button className="hover_btn px-4 py-2">
-          <span>(^)</span>
+        <button className="hover_btn px-4 py-2 flex items-center justify-center">
+          <FaCommentAlt />
           <span className="pl-1">Comments</span>
         </button>
       </div>

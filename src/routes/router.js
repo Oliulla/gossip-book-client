@@ -8,11 +8,12 @@ import Message from "../Pages/Message/Message";
 import ErrorPage from "../Pages/Shared/ErrorPage";
 import Login from "../Pages/Shared/Login";
 import Register from "../Pages/Shared/Register";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Root />,
+        element: <PrivateRoute><Root /></PrivateRoute>,
         errorElement: <ErrorPage />,
         children: [
             {

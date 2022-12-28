@@ -3,11 +3,12 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
 
-const AvatarWithName = () => {
+const AvatarWithName = (props) => {
   const { user } = useContext(AuthContext);
+  // console.log(props);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-2 p-2 rounded-lg w-full ${props?.className}`}>
       <label className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img
@@ -20,7 +21,7 @@ const AvatarWithName = () => {
           />
         </div>
       </label>
-      <button className="text-2xl hover:underline">
+      <button className="text-[1.1rem] hover:underline">
         {
             user?.displayName ? user.displayName : 'Anonymous '
         }
