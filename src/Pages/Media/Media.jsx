@@ -9,6 +9,7 @@ import LoadingAnimation from "../../Components/Shared/LoadingAnimation";
 const Media = () => {
   const [isPostLoading, setIsPostLoading] = useState(false);
   const [allPosts, setAllPosts] = useState([]);
+  const [isLiked, setIsLiked] = useState(false);
 
   useEffect(() => {
     setIsPostLoading(true)
@@ -22,7 +23,7 @@ const Media = () => {
       console.log(err);
       setIsPostLoading(false);
     })
-  }, [])
+  }, [isLiked])
 
   return (
     <div className="min-h-screen">
@@ -30,7 +31,7 @@ const Media = () => {
         isPostLoading ? <LoadingAnimation />
         :
         allPosts?.map(post => {
-          return <UsersPost key={post._id} post={post} />
+          return <UsersPost key={post._id} post={post} setIsLiked={setIsLiked} isLiked={isLiked} />
         })
       }
     </div>

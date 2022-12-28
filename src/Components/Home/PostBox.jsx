@@ -8,11 +8,12 @@ import "../../customCss/custom.css";
 import Avatar from "../Shared/Avatar";
 import axios from "axios";
 import LoadingAnimation from "../Shared/LoadingAnimation";
+import { Link } from "react-router-dom";
 
 const PostBox = () => {
   const { user } = useContext(AuthContext);
   const [isUploadLoading, setIsUploadLoading] = useState(false);
-  const [postImgUrl, setPostImgUrl] = useState('');
+  const [postImgUrl, setPostImgUrl] = useState("");
 
   // img host key for imgbb
   const imgHostKey = process.env.REACT_APP_imgbb_key;
@@ -22,7 +23,7 @@ const PostBox = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    reset
+    reset,
   } = useForm();
 
   const formValue = watch();
@@ -44,10 +45,9 @@ const PostBox = () => {
     const formData = new FormData();
     formData.append("image", image);
 
-    if(formValue?.postImage?.length) {
-
+    if (formValue?.postImage?.length) {
       const url = `https://api.imgbb.com/1/upload?key=${imgHostKey}`;
-  
+
       // setIsUploadLoading(true);
       fetch(url, {
         method: "POST",
@@ -58,7 +58,13 @@ const PostBox = () => {
           if (imgData?.success) {
             console.log(imgData, imgData?.data?.url);
             const postPhotoUrl = imgData?.data?.url;
-            savePostToDb(postPhotoUrl, userPostText, postTime, user?.displayName, user?.photoURL);
+            savePostToDb(
+              postPhotoUrl,
+              userPostText,
+              postTime,
+              user?.displayName,
+              user?.photoURL
+            );
             setIsUploadLoading(false);
             // toast.success('Post Uploaded')
             // reset(formValue);
@@ -70,20 +76,40 @@ const PostBox = () => {
           setIsUploadLoading(false);
         });
     } else {
-      savePostToDb(postImgUrl, userPostText, postTime, user?.displayName, user?.photoURL);
+      savePostToDb(
+        postImgUrl,
+        userPostText,
+        postTime,
+        user?.displayName,
+        user?.photoURL
+      );
       // reset(formValue);
-      setIsUploadLoading(false)
+      setIsUploadLoading(false);
       return;
     }
-
   };
 
-  const savePostToDb = async (postImgUrl="default", postInfo, uploadTime, userName, userPhoto) => {
+  const savePostToDb = async (
+    postImgUrl = "default",
+    postInfo,
+    uploadTime,
+    userName,
+    userPhoto
+  ) => {
     try {
-      const postData = { postImgUrl, postInfo, uploadTime, userName, userPhoto };
-      const data = await axios.post("http://localhost:5000/usersposts", postData);
+      const postData = {
+        postImgUrl,
+        postInfo,
+        uploadTime,
+        userName,
+        userPhoto,
+      };
+      const data = await axios.post(
+        "http://localhost:5000/usersposts",
+        postData
+      );
       // console.log(data);
-      if(data?.data?.acknowledged) {
+      if (data?.data?.acknowledged) {
         toast.success("Post Uploaded");
       }
     } catch (error) {
@@ -93,20 +119,17 @@ const PostBox = () => {
 
   return (
     <>
-      {
-        isUploadLoading && <LoadingAnimation />
-      }
+      {isUploadLoading && <LoadingAnimation />}
       <form
         onSubmit={handleSubmit(handlePost)}
-        className="mx-10 my-2 bg-accent rounded-md px-3 py-3"
+        className="mx-0 my-2 bg-accent rounded-md px-3 py-3"
       >
         <div className="flex items-center gap-4 w-full">
-          <label className="btn btn-ghost btn-circle avatar">
-            {/* <div className="w-10 rounded-full">
-          <img src="https://i.ibb.co/4JKWmDG/anonymous.jpg" alt="user img" />
-        </div> */}
-            <Avatar />
-          </label>
+          <Link to="/about">
+            <label className="btn btn-ghost btn-circle avatar">
+              <Avatar />
+            </label>
+          </Link>
           <div className="w-full">
             <textarea
               name="postText"

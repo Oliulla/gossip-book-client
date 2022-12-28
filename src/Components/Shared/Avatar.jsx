@@ -8,7 +8,6 @@ const Avatar = () => {
 
   return (
     <div className="w-10 rounded-full">
-      <Link to="/about">
         <img
           src={`${
             user?.photoURL
@@ -17,7 +16,6 @@ const Avatar = () => {
           }`}
           alt="user img"
         />
-      </Link>
     </div>
   );
 };

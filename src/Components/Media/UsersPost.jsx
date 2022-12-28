@@ -1,14 +1,27 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 // import AvatarWithName from "../Shared/AvatarWithName";
-import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike, AiFillLike } from "react-icons/ai";
 import { TiWorld } from "react-icons/ti";
 import { FaCommentAlt } from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../../Contexts/AuthProvider";
+import axios from "axios";
 
-const UsersPost = ({ post }) => {
-  const { postImgUrl, postInfo, uploadTime, userName, userPhoto } = post;
+const UsersPost = ({ post, isLiked, setIsLiked }) => {
+  const {
+    postImgUrl,
+    postInfo,
+    uploadTime,
+    userName,
+    userPhoto,
+    _id,
+    likedUsers,
+  } = post;
   const [uploadeExp, setUploadExp] = useState("");
   const [isSeeMore, setIsSeeMore] = useState(false);
+  const { user } = useContext(AuthContext);
+  const likedUserName = user?.displayName;
 
   const now = new Date().getTime();
   const uploadAge = parseInt(now - uploadTime);
@@ -45,6 +58,46 @@ const UsersPost = ({ post }) => {
       return;
     }
   }, [uploadAge]);
+
+  // user liked post
+  const handleLiked = async (postId, likedUserName) => {
+    try {
+      axios
+        .put("http://localhost:5000/usersposts/liked", {
+          postId,
+          likedUserName,
+        })
+        .then((data) => {
+          // console.log(data)
+          setIsLiked(!isLiked);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  // user dislikedpost
+  const handleDisLiked = async(postId, likedUserName) => {
+    try {
+      axios
+        .put("http://localhost:5000/usersposts/disliked", {
+          postId,
+          likedUserName,
+        })
+        .then((data) => {
+          // console.log(data)
+          setIsLiked(!isLiked);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="card w-full bg-accent shadow-xl rounded-lg mb-4">
@@ -109,7 +162,7 @@ const UsersPost = ({ post }) => {
             <AiFillLike className="w-3 h-3 ml-[2px] mt-[1px]" />
           </span>
           <span className="pl-2 hover:underline cursor-pointer text-base-100 text-[1.1rem]">
-            0
+            {likedUsers?.length ? likedUsers.length : "0"}
           </span>
         </p>
         <p>
@@ -119,10 +172,23 @@ const UsersPost = ({ post }) => {
       </div>
       <hr className="mx-4" />
       <div className="px-4 py-3 pb-4 flex justify-around">
-        <button className="hover_btn px-4 py-2 flex items-center justify-center">
-        <AiFillLike />
-          <span className="pl-1">Like</span>
-        </button>
+        {!likedUsers?.includes(user?.displayName) ? (
+          <button
+            onClick={() => handleLiked(_id, likedUserName)}
+            className="hover_btn px-4 py-2 flex items-center justify-center"
+          >
+            <AiFillLike />
+            <span className="pl-1">Like</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => handleDisLiked(_id, likedUserName)}
+            className="hover_btn px-4 py-2 flex items-center justify-center text-secondary"
+          >
+            <AiFillDislike />
+            <span className="pl-1">Dislike</span>
+          </button>
+        )}
         <button className="hover_btn px-4 py-2 flex items-center justify-center">
           <FaCommentAlt />
           <span className="pl-1">Comments</span>
