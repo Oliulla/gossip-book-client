@@ -25,7 +25,7 @@ const About = () => {
   //   console.log(user)
 
   useEffect(() => {
-    fetch(`http://localhost:5000/userpost/${user?.email}`)
+    fetch(`https://gossip-server.vercel.app/userpost/${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setAllPosts(data);
@@ -39,7 +39,7 @@ const About = () => {
     try {
       setIsLoading(true);
       axios
-        .get(`http://localhost:5000/users?email=${user?.email}`)
+        .get(`https://gossip-server.vercel.app/users?email=${user?.email}`)
         .then((data) => {
           // console.log(data);
           // return data?.data;

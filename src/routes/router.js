@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: "/userposts/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/usersposts/${params.id}`),
+          fetch(`https://gossip-server.vercel.app/usersposts/${params.id}`),
         element: <PostDetails />,
       },
     ],

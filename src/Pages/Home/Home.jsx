@@ -19,7 +19,7 @@ const Home = () => {
     queryFn: async () => {
       try {
         const data = await axios.get(
-          "http://localhost:5000/usersposts/trendings"
+          "https://gossip-server.vercel.app/usersposts/trendings"
         );
         // console.log(data)
         return data.data;

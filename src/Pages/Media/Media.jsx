@@ -16,7 +16,7 @@ const Media = () => {
   useEffect(() => {
     setIsPostLoading(true);
     axios
-      .get("http://localhost:5000/usersposts")
+      .get("https://gossip-server.vercel.app/usersposts")
       .then((data) => {
         // console.log(data?.data);
         setAllPosts(data?.data);

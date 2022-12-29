@@ -86,7 +86,7 @@ const UsersPost = ({
   const handleLiked = async (postId, likedUserName) => {
     try {
       axios
-        .put("http://localhost:5000/usersposts/liked", {
+        .put("https://gossip-server.vercel.app/usersposts/liked", {
           postId,
           likedUserName,
         })
@@ -106,7 +106,7 @@ const UsersPost = ({
   const handleDisLiked = async (postId, likedUserName) => {
     try {
       axios
-        .put("http://localhost:5000/usersposts/disliked", {
+        .put("https://gossip-server.vercel.app/usersposts/disliked", {
           postId,
           likedUserName,
         })
@@ -149,7 +149,7 @@ const UsersPost = ({
 
     try {
       axios
-        .put("http://localhost:5000/usersposts/comments", commentsInfo)
+        .put("https://gossip-server.vercel.app/usersposts/comments", commentsInfo)
         .then((data) => {
           // console.log(data)
           setIsUserCommented(!isUserCommented);
