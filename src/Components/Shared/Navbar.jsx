@@ -69,10 +69,10 @@ const Navbar = () => {
           </Link>
           <Link
             className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
-              location.pathname === "/about" && "active"
+              location.pathname === "/profile/about" && "active"
             } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
             data-tip="About"
-            to="/about"
+            to="/profile/about"
           >
             <ImProfile className="text-2xl md:text-3xl" />
             {/* <span className="hidden md:block">About</span> */}

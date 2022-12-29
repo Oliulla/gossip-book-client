@@ -1,5 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import OpenRoot from "../Layouts/OpenRoot";
+import ProfileAbout from "../Layouts/ProfileAbout";
 import Root from "../Layouts/Root";
 import About from "../Pages/About/About";
 import Home from "../Pages/Home/Home";
@@ -34,16 +35,24 @@ const router = createBrowserRouter([
                 element: <Message />
             },
             {
-                path: '/about',
-                element: <About />
-            },
-            {
                 path: '/userposts/:id',
                 loader: ({params}) => fetch(`http://localhost:5000/usersposts/${params.id}`),
                 element: <PostDetails />
             },
         ]
 
+    },
+    {
+        path: '/profile/about',
+        element: <ProfileAbout />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: '/profile/about',
+                element: <About />
+            }
+        ]
+        
     },
     {
         path: '/openroot',

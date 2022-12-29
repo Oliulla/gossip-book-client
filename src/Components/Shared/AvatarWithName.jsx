@@ -10,7 +10,7 @@ const AvatarWithName = (props) => {
   return (
     <div className={`flex items-center gap-2 p-2 rounded-lg w-full ${props?.className}`}>
       <label className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
+        <div className={`w-10 rounded-full`}>
           <img
             src={`${
               user?.photoURL
@@ -21,7 +21,7 @@ const AvatarWithName = (props) => {
           />
         </div>
       </label>
-      <button className="text-[1.1rem] hover:underline">
+      <button className={`text-[1.1rem] hover:underline ${props?.profile?.namesize}`}>
         {
             user?.displayName ? user.displayName : 'Anonymous '
         }

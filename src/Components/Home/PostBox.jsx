@@ -15,6 +15,8 @@ const PostBox = () => {
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [postImgUrl, setPostImgUrl] = useState("");
 
+  const postUserEmail = user?.email;
+
   // img host key for imgbb
   const imgHostKey = process.env.REACT_APP_imgbb_key;
 
@@ -63,7 +65,8 @@ const PostBox = () => {
               userPostText,
               postTime,
               user?.displayName,
-              user?.photoURL
+              user?.photoURL,
+              postUserEmail
             );
             setIsUploadLoading(false);
             // toast.success('Post Uploaded')
@@ -81,7 +84,8 @@ const PostBox = () => {
         userPostText,
         postTime,
         user?.displayName,
-        user?.photoURL
+        user?.photoURL,
+        postUserEmail
       );
       // reset(formValue);
       setIsUploadLoading(false);
@@ -94,7 +98,8 @@ const PostBox = () => {
     postInfo,
     uploadTime,
     userName,
-    userPhoto
+    userPhoto,
+    postUserEmail
   ) => {
     try {
       const postData = {
@@ -103,6 +108,7 @@ const PostBox = () => {
         uploadTime,
         userName,
         userPhoto,
+        postUserEmail
       };
       const data = await axios.post(
         "http://localhost:5000/usersposts",

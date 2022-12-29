@@ -1,6 +1,5 @@
 import React from "react";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthProvider";
 
 const Avatar = (props) => {

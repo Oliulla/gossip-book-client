@@ -54,10 +54,14 @@
 }
 
 .active {
-  color : #27b1e7;
+  color: #27b1e7;
   border-bottom: 3px solid #0055b6;
 }
 
 hr {
   border: 1px solid #000;
+}
+
+.custom_grad {
+  background-image: linear-gradient(to bottom, #5c769b, #242520);
 }
