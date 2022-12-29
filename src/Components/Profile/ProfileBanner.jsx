@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { AiFillEdit } from "react-icons/ai";
 
-const ProfileBanner = () => {
+const ProfileBanner = ({ currentUser }) => {
   const { user } = useContext(AuthContext);
 
   return (
@@ -31,9 +31,16 @@ const ProfileBanner = () => {
               </div>
             </div>
             <div className="pl-6 w-full">
-              <h2 className="text-2xl mt-10 font-bold">{user?.displayName}</h2>
+              <h2 className="text-2xl mt-14 font-bold">
+                {currentUser?.updatedName
+                  ? currentUser?.updatedName
+                  : currentUser?.userName}
+              </h2>
               <div className="w-full flex justify-end">
-                <button className="flex items-center gap-1 mt-10 btn-accent px-3 py-1 rounded-md">
+                <button
+                  className="flex items-center gap-1 mt-10 btn-accent px-3 py-1 rounded-md hover:btn-primary"
+                  disabled
+                >
                   <AiFillEdit className="w-5 h-5" />
                   <span>Edit Profile</span>
                 </button>

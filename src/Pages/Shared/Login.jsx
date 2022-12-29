@@ -7,10 +7,10 @@ import GoogleLogin from "../../Components/Shared/GoogleLogin";
 import { AuthContext } from "../../Contexts/AuthProvider";
 
 const Login = () => {
-  const {userLogin, setLoading} = useContext(AuthContext);
+  const { userLogin, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -20,19 +20,19 @@ const Login = () => {
 
   const handleLogin = (data) => {
     // console.log(data);
-    setLoading(true)
+    setLoading(true);
     userLogin(data?.email, data?.password)
-    .then(result => {
-      console.log(result);
-      toast.success('Successfully logged in!');
-      setLoading(false);
-      
-      return navigate(from, {replace: true})
-    })
-    .catch(error => {
-      console.log(error);
-      toast.error(error.message)
-    })
+      .then((result) => {
+        // console.log(result);
+        toast.success("Successfully logged in!");
+        setLoading(false);
+
+        return navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -109,7 +109,8 @@ const Login = () => {
                   <span className="uppercase">L</span>ogin
                 </button>
                 <Link to="/openroot/register">
-                  New here? <span className="text-secondary underline">Register</span>
+                  New here?{" "}
+                  <span className="text-secondary underline">Register</span>
                 </Link>
                 <div className="divider">OR</div>
                 <GoogleLogin />

@@ -28,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-accent fixed top-0 z-50 border border-b-2 border-primary mb-14 py-0">
+    <div className="navbar bg-accent fixed top-0 z-[100] border border-b-2 border-primary mb-14 py-0">
       <div className="flex-1 py-0">
         <Link
           to="/"
@@ -88,7 +88,7 @@ const Navbar = () => {
             className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-accent rounded-box w-72"
           >
             <li>
-              <Link to="/about" className="justify-between">
+              <Link to="/profile/about" className="justify-between">
                 <AvatarWithName className="hover:bg-primary custom_shadow" />
               </Link>
             </li>

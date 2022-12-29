@@ -2,15 +2,19 @@ import React from "react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FaImages } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "../../Components/Shared/GoogleLogin";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { saveUserToDb } from "../../api/savaUserToDb";
+// import { useState } from "react";
 
 const Register = () => {
   const { createUser, updateUser } = useContext(AuthContext);
   // const [userPhotoURL, setUserPhotoURL] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   // img host key for imgbb
   const imgHostKey = process.env.REACT_APP_imgbb_key;
@@ -37,6 +41,7 @@ const Register = () => {
       .then((result) => {
         toast.success("successfully registered");
         // console.log(result.user);
+        const user = result?.user;
         fetch(url, {
           method: "POST",
           body: formData,
@@ -47,12 +52,23 @@ const Register = () => {
             if (imgData.success) {
               const displayName = name;
               const photoURL = imgData?.data?.url;
-              console.log(photoURL);
+              // console.log(photoURL);
               const userInfo = { displayName, photoURL };
               updateUser(userInfo)
                 .then(() => {
-                  console.log("updated user");
+                  // console.log("updated user");
                   // setUserPhotoURL(photoURL)
+
+                  // save user to db
+                  saveUserToDb(user?.email, displayName, photoURL)
+                    .then((result) => {
+                      if(result.acknowledged) {
+                        return navigate(from, {replace: true});
+                      }
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
                 })
                 .catch((error) => {
                   console.log(error);

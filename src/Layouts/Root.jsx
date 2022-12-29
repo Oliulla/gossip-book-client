@@ -14,7 +14,7 @@ const Root = () => {
       <div className="py-20 px-4">
         <div className="grid grid-cols-12 justify-center w-full">
           <div className="md:col-span-3 fixed top-20 left-0 md:w-3/12 h-screen pl-3 hidden lg:block">
-            <Link to="/about">
+            <Link to="/profile/about">
               <AvatarWithName className="hover:bg-primary" />
             </Link>
           </div>
