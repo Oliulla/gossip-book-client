@@ -40,7 +40,7 @@ const ProfileIntroEditModal = ({
 
       //   console.log(updateInfo);
 
-      const updateData = await axios.put(`https://gossip-server.vercel.app/users/update`, {
+      const updateData = await axios.put(`https://gossip-server-akhsv5tmq-oliulla.vercel.app/users/update`, {
         updateInfo,
       });
 

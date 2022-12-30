@@ -25,7 +25,9 @@ const About = () => {
   //   console.log(user)
 
   useEffect(() => {
-    fetch(`https://gossip-server.vercel.app/userpost/${user?.email}`)
+    fetch(
+      `https://gossip-server-akhsv5tmq-oliulla.vercel.app/userpost/${user?.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setAllPosts(data);
@@ -39,7 +41,9 @@ const About = () => {
     try {
       setIsLoading(true);
       axios
-        .get(`https://gossip-server.vercel.app/users?email=${user?.email}`)
+        .get(
+          `https://gossip-server-akhsv5tmq-oliulla.vercel.app/users?email=${user?.email}`
+        )
         .then((data) => {
           // console.log(data);
           // return data?.data;
@@ -56,49 +60,54 @@ const About = () => {
     }
   }, [user?.email, isProfileUpdate]);
 
-    console.log(currentUser);
+  console.log("ki thake", currentUser);
 
   return (
-    <div className="min-h-screen pt-18">
-      <ProfileBanner currentUser={currentUser} />
-      <div className="flex justify-center flex-col md:flex-row gap-4 w-full mt-2 px-2 md:px-28">
-        <div className="w-full md:w-4/12">
-          <div className="w-full my-2 bg-accent rounded-md px-3 py-3">
-            <ProfileIntro
-              currentUser={currentUser}
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-            />
-            <ProfileIntroEditModal
-              currentUser={currentUser}
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              isProfileUpdate={isProfileUpdate}
-              setIsProfileUpdate={setIsProfileUpdate}
-            />
+    <>
+      {currentUser?.email ? (
+        <div className="min-h-screen pt-18">
+          <ProfileBanner currentUser={currentUser} />
+          <div className="flex justify-center flex-col md:flex-row gap-4 w-full mt-2 px-2 md:px-28">
+            <div className="w-full md:w-4/12 md:relative">
+              <div className="md:sticky top-20">
+                <div className="w-full my-2 bg-accent rounded-md px-3 py-3">
+                  <ProfileIntro
+                    currentUser={currentUser}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                  />
+                  <ProfileIntroEditModal
+                    currentUser={currentUser}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    isProfileUpdate={isProfileUpdate}
+                    setIsProfileUpdate={setIsProfileUpdate}
+                  />
+                </div>
+                <ProfileFooter />
+              </div>
+            </div>
+            <div className="w-full md:w-7/12">
+              <PostBox />
+              {allPosts?.length
+                ? allPosts?.map((post) => (
+                    <UsersPost
+                      key={post._id}
+                      post={post}
+                      isLiked={isLiked}
+                      setIsLiked={setIsLiked}
+                      isUserCommented={isUserCommented}
+                      setIsUserCommented={setIsUserCommented}
+                    />
+                  ))
+                : undefined}
+            </div>
           </div>
-          <ProfileFooter />
         </div>
-        <div className="w-full md:w-7/12">
-          <PostBox />
-          {allPosts?.length ?
-            allPosts?.map((post) => (
-              <UsersPost
-                key={post._id}
-                post={post}
-                isLiked={isLiked}
-                setIsLiked={setIsLiked}
-                isUserCommented={isUserCommented}
-                setIsUserCommented={setIsUserCommented}
-              />
-              
-            ))
-              :
-              undefined
-          }
-        </div>
-      </div>
-    </div>
+      ) : (
+        <LoadingAnimation loadingText={"Loading, please wait..."} />
+      )}
+    </>
   );
 };
 

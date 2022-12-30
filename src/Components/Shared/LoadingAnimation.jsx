@@ -1,9 +1,9 @@
 import React from "react";
 
-const LoadingAnimation = () => {
+const LoadingAnimation = ({props}) => {
     
   return (
-    <p className="bg-blue-300 px-2 py-1 text-center text-primary font-semibold w-24 rounded-sm fixed h-auto">
+    <p className="bg-blue-300 px-2 py-1 text-center text-secondary font-semibold w-24 rounded-sm fixed h-auto">
       Loading...
     </p>
   );
