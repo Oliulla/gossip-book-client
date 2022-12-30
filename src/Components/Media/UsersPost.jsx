@@ -16,16 +16,15 @@ const UsersPost = ({
   post,
   isLiked,
   setIsLiked,
-  isUserCommented, 
-  setIsUserCommented
+  isUserCommented,
+  setIsUserCommented,
 }) => {
   const [uploadeExp, setUploadExp] = useState("");
   const [isSeeMore, setIsSeeMore] = useState(false);
   const [isComment, setIsComment] = useState(false);
   const { user } = useContext(AuthContext);
-  const likedUserName = user?.displayName;
+  const likedUserEmail = user?.email;
 
-  
   // postinfo
   const {
     postImgUrl,
@@ -83,12 +82,12 @@ const UsersPost = ({
   }, [uploadAge]);
 
   // user liked post
-  const handleLiked = async (postId, likedUserName) => {
+  const handleLiked = async (postId, likedUserEmail) => {
     try {
       axios
         .put("https://gossip-server.vercel.app/usersposts/liked", {
           postId,
-          likedUserName,
+          likedUserEmail,
         })
         .then((data) => {
           // console.log(data)
@@ -103,12 +102,12 @@ const UsersPost = ({
   };
 
   // user dislikedpost
-  const handleDisLiked = async (postId, likedUserName) => {
+  const handleDisLiked = async (postId, likedUserEmail) => {
     try {
       axios
         .put("https://gossip-server.vercel.app/usersposts/disliked", {
           postId,
-          likedUserName,
+          likedUserEmail,
         })
         .then((data) => {
           // console.log(data)
@@ -234,6 +233,7 @@ const UsersPost = ({
           </span>
           <span className="pl-2 hover:underline cursor-pointer text-base-100 text-[1.1rem]">
             {likedUsers?.length ? likedUsers.length : "0"}
+            <span className="text-secondary">{likedUsers?.includes(user?.email) ? " | you Liked" : ""}</span>
           </span>
         </p>
         <p>
@@ -248,9 +248,9 @@ const UsersPost = ({
       </div>
       <hr className="mx-4" />
       <div className="px-4 py-1 flex justify-around">
-        {!likedUsers?.includes(user?.displayName) ? (
+        {!likedUsers?.includes(user?.email) ? (
           <button
-            onClick={() => handleLiked(_id, likedUserName)}
+            onClick={() => handleLiked(_id, likedUserEmail)}
             className="hover_btn px-4 py-2 flex items-center justify-center"
           >
             <AiFillLike />
@@ -258,7 +258,7 @@ const UsersPost = ({
           </button>
         ) : (
           <button
-            onClick={() => handleDisLiked(_id, likedUserName)}
+            onClick={() => handleDisLiked(_id, likedUserEmail)}
             className="hover_btn px-4 py-2 flex items-center justify-center text-secondary"
           >
             <AiFillDislike />
@@ -279,20 +279,19 @@ const UsersPost = ({
           <div>
             <div className={`mt-2 px-4 flex gap-1`}>
               <Avatar />
-              <form onSubmit={handleSubmit(handleComment)} className="w-full">
+              <form onSubmit={handleSubmit(handleComment)} className="w-full flex items-center md:block">
                 <input
                   {...register("userComment", {
                     required: true,
                   })}
-                  className="resize-none w-full h-5/6 rounded-3xl outline-none bg-neutral px-2 overflow-hidden"
+                  className="w-2/3 md:w-full h-5/6 rounded-3xl outline-none bg-neutral px-2 overflow-hidden"
                 />
+                <input type="submit" value="comment" className="ml-2 btn-primary px-3 py-2 rounded-lg w-1/3 md:hidden" />
               </form>
             </div>
           </div>
         </>
-        {commentUsers?.length && (
-          <UsersComments commentPostId={_id} />
-        )}
+        {commentUsers?.length && <UsersComments commentPostId={_id} />}
       </div>
     </div>
   );

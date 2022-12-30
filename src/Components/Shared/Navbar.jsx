@@ -36,7 +36,7 @@ const Navbar = () => {
         >
           G
         </Link>
-        <div className="my-0 mx-auto flex gap-6 text-base-100">
+        <div className="my-0 mx-auto flex gap-4 md:gap-6 text-base-100">
           <Link
             className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
               location.pathname === "/home" && "active"

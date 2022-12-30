@@ -21,7 +21,7 @@ const Home = () => {
         const data = await axios.get(
           "https://gossip-server.vercel.app/usersposts/trendings"
         );
-        // console.log(data)
+        console.log(data)
         return data.data;
       } catch (error) {
         console.log(error);

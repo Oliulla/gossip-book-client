@@ -5,10 +5,11 @@ import { AiFillEdit } from "react-icons/ai";
 
 const ProfileBanner = ({ currentUser }) => {
   const { user } = useContext(AuthContext);
+  // console.log(currentUser.userName)
 
   return (
     <>
-      <div className="custom_grad w-full h-screen">
+      <div className="custom_grad w-full h-[80vh] md:h-screen">
         <div className="mx-auto relative md:w-4/6">
           <div className="h-[45vh] md:h-[65vh] overflow-hidden rounded-b-xl">
             <img
@@ -17,8 +18,8 @@ const ProfileBanner = ({ currentUser }) => {
               alt=""
             />
           </div>
-          <div className="z-50 w-full mx-auto px-12 absolute bottom-[-120px] flex items-center">
-            <div className="avatar">
+          <div className="z-50 w-full mx-auto md:px-12 absolute left-1/5 md:left-0 bottom-[-200px] md:bottom-[-120px] flex flex-col md:flex-row items-center">
+            <div className="avatar"> 
               <div className="w-28 md:w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <img
                   src={
@@ -30,13 +31,13 @@ const ProfileBanner = ({ currentUser }) => {
                 />
               </div>
             </div>
-            <div className="pl-6 w-full">
-              <h2 className="text-2xl mt-14 font-bold">
+            <div className="pl-6 w-full flex flex-col">
+              <h2 className="text-2xl mt-2 md:mt-24 text-center md:text-start font-bold w-full">
                 {currentUser?.updatedName
                   ? currentUser?.updatedName
                   : currentUser?.userName}
               </h2>
-              <div className="w-full flex justify-end">
+              <div className="w-full flex justify-center md:justify-end">
                 <button
                   className="flex items-center gap-1 mt-10 btn-accent px-3 py-1 rounded-md hover:btn-primary"
                   disabled

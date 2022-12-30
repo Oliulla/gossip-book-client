@@ -56,7 +56,7 @@ const About = () => {
     }
   }, [user?.email, isProfileUpdate]);
 
-  //   console.log(currentUser);
+    console.log(currentUser);
 
   return (
     <div className="min-h-screen pt-18">
@@ -81,7 +81,7 @@ const About = () => {
         </div>
         <div className="w-full md:w-7/12">
           <PostBox />
-          {allPosts?.length &&
+          {allPosts?.length ?
             allPosts?.map((post) => (
               <UsersPost
                 key={post._id}
@@ -91,7 +91,11 @@ const About = () => {
                 isUserCommented={isUserCommented}
                 setIsUserCommented={setIsUserCommented}
               />
-            ))}
+              
+            ))
+              :
+              undefined
+          }
         </div>
       </div>
     </div>

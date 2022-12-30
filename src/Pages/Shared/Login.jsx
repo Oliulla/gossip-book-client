@@ -50,6 +50,7 @@ const Login = () => {
             className="card shadow-2xl bg-accent w-full"
           >
             <div className="card-body">
+            <h2 className="md:hidden text-info text-xl">Login Now</h2>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-xl text-secondary">

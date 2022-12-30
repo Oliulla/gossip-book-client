@@ -87,8 +87,8 @@ const Register = () => {
 
   return (
     <div className="min-h-screen py-20">
-      <div className="hero mt-6">
-        <div className="hero-content lg:flex w-full">
+      <div className="md:hero px-2 mt-6">
+        <div className="md:hero-content lg:flex w-full">
           <div className="hidden md:block w-full h-full custom_overlay">
             <h1 className="text-4xl font-bold">
               Please Register first to visit
@@ -104,6 +104,7 @@ const Register = () => {
             className="card shadow-2xl bg-accent w-full"
           >
             <div className="card-body">
+              <h2 className="md:hidden text-info text-xl">Register Now</h2>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-xl text-secondary">
