@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { AiFillEdit } from "react-icons/ai";
 
-const ProfileBanner = ({ currentUser }) => {
+const ProfileBanner = ({ currentUser, zIndex }) => {
   const { user } = useContext(AuthContext);
   // console.log(currentUser.userName)
 
   return (
     <>
-      <div className="custom_grad w-full h-[80vh] md:h-screen">
+      <div className={`custom_grad w-full h-[80vh] md:h-screen ${zIndex}`}>
         <div className="mx-auto relative md:w-4/6">
           <div className="h-[45vh] md:h-[65vh] overflow-hidden rounded-b-xl">
             <img
@@ -28,14 +28,15 @@ const ProfileBanner = ({ currentUser }) => {
                       : "https://i.ibb.co/4JKWmDG/anonymous.jpg"
                   }
                   alt={`${user?.displayName}`}
+                  className=""
                 />
               </div>
             </div>
             <div className="pl-6 w-full flex flex-col">
               <h2 className="text-2xl mt-2 md:mt-24 text-center md:text-start font-bold w-full">
-                {currentUser?.updatedName
-                  ? currentUser?.updatedName
-                  : currentUser?.userName}
+                {!currentUser?.updatedName
+                  ? currentUser.userName 
+                  : currentUser?.updatedName}
               </h2>
               <div className="w-full flex justify-center md:justify-end">
                 <button

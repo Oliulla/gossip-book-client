@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -19,14 +19,13 @@ const About = () => {
   const { user } = useContext(AuthContext);
   const [allPosts, setAllPosts] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(true);
   const [isProfileUpdate, setIsProfileUpdate] = useState(false);
 
   //   console.log(user)
 
   useEffect(() => {
     fetch(
-      `https://gossip-server-akhsv5tmq-oliulla.vercel.app/userpost/${user?.email}`
+      `https://gossip-server.vercel.app/userpost/${user?.email}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -42,7 +41,7 @@ const About = () => {
       setIsLoading(true);
       axios
         .get(
-          `https://gossip-server-akhsv5tmq-oliulla.vercel.app/users?email=${user?.email}`
+          `https://gossip-server.vercel.app/users?email=${user?.email}`
         )
         .then((data) => {
           // console.log(data);
@@ -60,35 +59,32 @@ const About = () => {
     }
   }, [user?.email, isProfileUpdate]);
 
-  console.log("ki thake", currentUser);
+  // console.log("ki thake", currentUser);
 
   return (
     <>
       {currentUser?.email ? (
         <div className="min-h-screen pt-18">
-          <ProfileBanner currentUser={currentUser} />
+          <ProfileBanner currentUser={currentUser} zIndex={"z-0"} />
           <div className="flex justify-center flex-col md:flex-row gap-4 w-full mt-2 px-2 md:px-28">
             <div className="w-full md:w-4/12 md:relative">
               <div className="md:sticky top-20">
                 <div className="w-full my-2 bg-accent rounded-md px-3 py-3">
                   <ProfileIntro
                     currentUser={currentUser}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
                   />
                   <ProfileIntroEditModal
                     currentUser={currentUser}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
                     isProfileUpdate={isProfileUpdate}
                     setIsProfileUpdate={setIsProfileUpdate}
+                    zIndex={"z-1000000"}
                   />
                 </div>
                 <ProfileFooter />
               </div>
             </div>
             <div className="w-full md:w-7/12">
-              <PostBox />
+              <PostBox zIndex={"z-0"} />
               {allPosts?.length
                 ? allPosts?.map((post) => (
                     <UsersPost
@@ -98,6 +94,7 @@ const About = () => {
                       setIsLiked={setIsLiked}
                       isUserCommented={isUserCommented}
                       setIsUserCommented={setIsUserCommented}
+                      zIndex={"z-0"}
                     />
                   ))
                 : undefined}

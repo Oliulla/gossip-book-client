@@ -7,14 +7,20 @@ import GoogleLogin from "../../Components/Shared/GoogleLogin";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { toast } from "react-hot-toast";
 import { saveUserToDb } from "../../api/savaUserToDb";
+import { useState } from "react";
+import useToken from "../../hooks/useToken";
 // import { useState } from "react";
 
 const Register = () => {
   const { createUser, updateUser } = useContext(AuthContext);
   // const [userPhotoURL, setUserPhotoURL] = useState("");
+  const [createdEmail, setCreatedEmail] = useState("");
+  const [token] = useToken(createdEmail);
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate("/");
+  }
 
   // img host key for imgbb
   const imgHostKey = process.env.REACT_APP_imgbb_key;
@@ -61,9 +67,11 @@ const Register = () => {
 
                   // save user to db
                   saveUserToDb(user?.email, displayName, photoURL)
-                    .then((result) => {
-                      if(result.acknowledged) {
-                        return navigate(from, {replace: true});
+                    .then((data) => {
+                      console.log("from register", data?.data);
+                      if (data?.data?.upsertedId) {
+                        setCreatedEmail(user?.email);
+                        // return navigate(from, {replace: true});
                       }
                     })
                     .catch((err) => {

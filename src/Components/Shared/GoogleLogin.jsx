@@ -1,14 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { saveUserToDb } from "../../api/savaUserToDb";
+import useToken from "../../hooks/useToken";
 
 const GoogleLogin = () => {
   const { googleLogin } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const [createUserEmail, setCreateUserEmail] = useState("");
+  const [token] = useToken(createUserEmail);
+  const from = location?.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const handleGoogleLogin = () => {
     googleLogin()
@@ -17,9 +24,11 @@ const GoogleLogin = () => {
         // console.log(result?.user);
         const user = result?.user;
         saveUserToDb(user?.email, user?.displayName, user?.photoURL)
-          .then((result) => {
-            console.log(result);
-            return navigate(from, {replace: true});
+          .then((data) => {
+            console.log(data)
+            if(data?.data?.acknowledged)
+            // console.log(result);
+            setCreateUserEmail(user?.email);
           })
           .catch((err) => {
             console.log(err);

@@ -18,6 +18,7 @@ const UsersPost = ({
   setIsLiked,
   isUserCommented,
   setIsUserCommented,
+  refetch,
 }) => {
   const [uploadeExp, setUploadExp] = useState("");
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -85,10 +86,13 @@ const UsersPost = ({
   const handleLiked = async (postId, likedUserEmail) => {
     try {
       axios
-        .put("https://gossip-server-akhsv5tmq-oliulla.vercel.app/usersposts/liked", {
-          postId,
-          likedUserEmail,
-        })
+        .put(
+          "https://gossip-server.vercel.app/usersposts/liked",
+          {
+            postId,
+            likedUserEmail,
+          }
+        )
         .then((data) => {
           // console.log(data)
           setIsLiked(!isLiked);
@@ -105,10 +109,13 @@ const UsersPost = ({
   const handleDisLiked = async (postId, likedUserEmail) => {
     try {
       axios
-        .put("https://gossip-server-akhsv5tmq-oliulla.vercel.app/usersposts/disliked", {
-          postId,
-          likedUserEmail,
-        })
+        .put(
+          "https://gossip-server.vercel.app/usersposts/disliked",
+          {
+            postId,
+            likedUserEmail,
+          }
+        )
         .then((data) => {
           // console.log(data)
           setIsLiked(!isLiked);
@@ -148,7 +155,10 @@ const UsersPost = ({
 
     try {
       axios
-        .put("https://gossip-server-akhsv5tmq-oliulla.vercel.app/usersposts/comments", commentsInfo)
+        .put(
+          "https://gossip-server.vercel.app/usersposts/comments",
+          commentsInfo
+        )
         .then((data) => {
           // console.log(data)
           setIsUserCommented(!isUserCommented);
@@ -233,7 +243,14 @@ const UsersPost = ({
           </span>
           <span className="pl-2 hover:underline cursor-pointer text-base-100 text-[1.1rem]">
             {likedUsers?.length ? likedUsers.length : "0"}
-            <span className="text-secondary">{likedUsers?.includes(user?.email) ? " | you Liked" : ""}</span>
+            <span className="text-secondary text-[.5rem] md:text-[.8rem]">
+              {likedUsers?.includes(user?.email)
+                ? ` | you ${likedUsers?.includes(user?.email) && likedUsers?.length === 1 ? "liked" : "and"} ${
+                    likedUsers?.length - 1 > 0 ? likedUsers?.length - 1 : ""
+                  }`
+                : ""}
+                <span className={`${likedUsers?.length > 1 ? "" : "hidden"}`}>{" "}others liked</span>
+            </span>
           </span>
         </p>
         <p>
@@ -279,14 +296,21 @@ const UsersPost = ({
           <div>
             <div className={`mt-2 px-4 flex gap-1`}>
               <Avatar />
-              <form onSubmit={handleSubmit(handleComment)} className="w-full flex items-center md:block">
+              <form
+                onSubmit={handleSubmit(handleComment)}
+                className="w-full flex items-center md:block"
+              >
                 <input
                   {...register("userComment", {
                     required: true,
                   })}
                   className="w-2/3 md:w-full h-5/6 rounded-3xl outline-none bg-neutral px-2 overflow-hidden"
                 />
-                <input type="submit" value="comment" className="ml-2 btn-primary px-3 py-2 rounded-lg w-1/3 md:hidden" />
+                <input
+                  type="submit"
+                  value="comment"
+                  className="ml-2 btn-primary px-3 py-2 rounded-lg w-1/3 md:hidden"
+                />
               </form>
             </div>
           </div>

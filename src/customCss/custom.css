@@ -69,3 +69,18 @@ hr {
 .custom_span {
   font-size: 1.2rem;
 }
+/* 
+.z_index {
+  z-index: 1000000 !important;
+} */
+
+/* .flexbox-wrapper {
+  display: flex;
+  overflow: auto;
+}
+
+.sticky-custom {
+  position: sticky;
+  top: 0;
+  align-self: flex-start; 
+} */

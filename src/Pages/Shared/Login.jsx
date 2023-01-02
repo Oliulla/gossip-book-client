@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "../../Components/Shared/GoogleLogin";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const { userLogin, setLoading } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [loginUserEmail, setLoginUserEmail] = useState("");
+  const [token] = useToken(loginUserEmail);
   const location = useLocation();
+  const navigate = useNavigate();
+
   const from = location.state?.from?.pathname || "/";
+
+  if (token) {
+    navigate(from, { replace: true });
+  }
 
   const {
     register,
@@ -27,7 +35,7 @@ const Login = () => {
         toast.success("Successfully logged in!");
         setLoading(false);
 
-        return navigate(from, { replace: true });
+        setLoginUserEmail(data.email);
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +58,7 @@ const Login = () => {
             className="card shadow-2xl bg-accent w-full"
           >
             <div className="card-body">
-            <h2 className="md:hidden text-info text-xl">Login Now</h2>
+              <h2 className="md:hidden text-info text-xl">Login Now</h2>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text text-xl text-secondary">

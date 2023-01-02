@@ -14,12 +14,13 @@ const Home = () => {
     data: trendingPosts = [],
     error,
     isLoading,
+    refetch
   } = useQuery({
     queryKey: ["usersposts/trendings", isLiked],
     queryFn: async () => {
       try {
         const data = await axios.get(
-          "https://gossip-server-akhsv5tmq-oliulla.vercel.app/usersposts/trendings"
+          "https://gossip-server.vercel.app/usersposts/trendings"
         );
         console.log(data)
         return data.data;
