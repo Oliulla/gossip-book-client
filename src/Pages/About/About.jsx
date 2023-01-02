@@ -25,7 +25,7 @@ const About = () => {
 
   useEffect(() => {
     fetch(
-      `https://gossip-server-qvga4pyhs-oliulla.vercel.app/userpost/${user?.email}`, {
+      `https://gossip-server-nf7b5t583-oliulla.vercel.app/userpost/${user?.email}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
@@ -45,7 +45,7 @@ const About = () => {
       setIsLoading(true);
       axios
         .get(
-          `https://gossip-server.vercel.app/users?email=${user?.email}`
+          `https://gossip-server-nf7b5t583-oliulla.vercel.app/users?email=${user?.email}`
         )
         .then((data) => {
           // console.log(data);

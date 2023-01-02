@@ -111,7 +111,7 @@ const PostBox = () => {
         postUserEmail
       };
       const data = await axios.post(
-        "https://gossip-server.vercel.app/usersposts",
+        "https://gossip-server-nf7b5t583-oliulla.vercel.app/usersposts",
         postData
       );
       // console.log(data);

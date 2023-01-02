@@ -8,7 +8,7 @@ const UsersComments = ({ commentPostId }) => {
   const [allComments, setAllComments] = useState([]);
   useEffect(() => {
     axios
-      .get("https://gossip-server.vercel.app/userposts/allcomments")
+      .get("https://gossip-server-nf7b5t583-oliulla.vercel.app/userposts/allcomments")
       .then((data) => {
         // console.log(data)
         setAllComments(data?.data);

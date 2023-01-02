@@ -15,7 +15,7 @@ const PeopleYouMayKnow = () => {
     queryKey: ["allUsers"],
     queryFn: async () => {
       try {
-        const data = await axios.get("https://gossip-server.vercel.app/allusers");
+        const data = await axios.get("https://gossip-server-nf7b5t583-oliulla.vercel.app/allusers");
         return data?.data;
         // console.log(data);
       } catch (error) {

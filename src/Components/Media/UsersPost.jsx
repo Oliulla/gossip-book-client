@@ -87,7 +87,7 @@ const UsersPost = ({
     try {
       axios
         .put(
-          "https://gossip-server.vercel.app/usersposts/liked",
+          "https://gossip-server-nf7b5t583-oliulla.vercel.app/usersposts/liked",
           {
             postId,
             likedUserEmail,
@@ -110,7 +110,7 @@ const UsersPost = ({
     try {
       axios
         .put(
-          "https://gossip-server.vercel.app/usersposts/disliked",
+          "https://gossip-server-nf7b5t583-oliulla.vercel.app/usersposts/disliked",
           {
             postId,
             likedUserEmail,
@@ -156,7 +156,7 @@ const UsersPost = ({
     try {
       axios
         .put(
-          "https://gossip-server.vercel.app/usersposts/comments",
+          "https://gossip-server-nf7b5t583-oliulla.vercel.app/usersposts/comments",
           commentsInfo
         )
         .then((data) => {

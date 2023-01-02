@@ -20,7 +20,7 @@ const Home = () => {
     queryFn: async () => {
       try {
         const data = await axios.get(
-          "https://gossip-server.vercel.app/usersposts/trendings"
+          "https://gossip-server-nf7b5t583-oliulla.vercel.app/usersposts/trendings"
         );
         console.log(data)
         return data.data;
@@ -35,7 +35,7 @@ const Home = () => {
     // return <p>{error.mesdsage}</p>;
   }
 
-  console.log(trendingPosts)
+  // console.log(trendingPosts)
 
   return (
     <div className="min-h-screen w-full">
