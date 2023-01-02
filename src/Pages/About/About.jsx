@@ -25,7 +25,11 @@ const About = () => {
 
   useEffect(() => {
     fetch(
-      `https://gossip-server.vercel.app/userpost/${user?.email}`
+      `https://gossip-server-qvga4pyhs-oliulla.vercel.app/userpost/${user?.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
     )
       .then((res) => res.json())
       .then((data) => {
