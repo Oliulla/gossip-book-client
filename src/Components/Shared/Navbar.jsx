@@ -57,16 +57,16 @@ const Navbar = () => {
             <TfiLayoutMediaOverlayAlt className="text-2xl md:text-3xl" />
             {/* <span className="hidden md:block">Media</span> */}
           </Link>
-          <Link
+          <a
             className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
               location.pathname === "/message" && "active"
             } tooltip tooltip-info tooltip-bottom border-b-[3px] border-accent`}
             data-tip="Message"
-            to="/message"
+           href="https://olichat.vercel.app"
           >
             <AiFillMessage className="text-2xl md:text-3xl" />
             {/* <span className="hidden md:block">Message</span> */}
-          </Link>
+          </a>
           <Link
             className={`flex items-center gap-1 md:py-2 md:px-12 hover:rounded-md hover:btn-primary ${
               location.pathname === "/profile/about" && "active"
